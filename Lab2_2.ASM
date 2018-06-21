@@ -1,0 +1,40 @@
+CODE SEGMENT
+  MAIN   PROC   FAR
+          ASSUME CS:CODE
+  START:  MOV BX,8FFFH
+          CMP BX,0
+          JNL PRN
+          AND BX,7FFFH
+          MOV AH,2
+          MOV DL,2DH
+          INT 21H
+  PRN:    CALL PRO1
+          RET
+  MAIN  ENDP
+  PRO1   PROC   NEAR
+         MOV       CX, 1000
+         CALL       DEC_DIV
+         MOV       CX, 100
+         CALL       DEC_DIV
+         MOV       CX, 10
+         CALL       DEC_DIV
+         MOV       CX, 1
+         CALL       DEC_DIV
+         MOV       AH, 4CH
+         INT        21H
+         RET
+  PRO1  ENDP
+  DEC_DIV  PROC       NEAR
+              MOV       AX, BX
+              MOV       DX, 0
+              DIV       CX
+              MOV       BX, DX
+              MOV       DL, AL
+              ADD       DL, 30H
+              MOV       AH, 2
+              INT        21H
+              RET
+   DEC_DIV  ENDP
+      CODE   ENDS
+             END   START
+   
